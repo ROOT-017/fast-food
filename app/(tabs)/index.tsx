@@ -1,4 +1,3 @@
-import { images, offers } from "@/constants";
 import cn from "clsx";
 import { Fragment } from "react";
 import {
@@ -10,12 +9,18 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { images, offers } from "@/constants";
+import useAuthStore from "@/store/auth.store";
 import CardButton from "../../components/CardButton";
 
 export default function Index() {
+  const { user } = useAuthStore();
+  // console.log(user);
+
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <FlatList
+      <FlatList 
         data={offers}
         renderItem={({ item, index }) => {
           const isEven = index % 2 === 0;
@@ -79,6 +84,14 @@ export default function Index() {
           );
         }}
         contentContainerClassName="pb-28 px-5"
+        // ListFooterComponent={() => (
+        //   <Button
+        //     title="Try!"
+        //     onPress={() => {
+        //       Sentry.captureException(new Error("First error"));
+        //     }}
+        //   />
+        // )}
       />
     </SafeAreaView>
   );
