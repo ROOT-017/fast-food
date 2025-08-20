@@ -47,10 +47,6 @@ const TabsLayout = () => {
           shadowOpacity: 0.1,
           shadowRadius: 4,
           elevation: 5,
-          // borderTopLeftRadius: 50,
-          // borderTopRightRadius: 50,
-          // borderBottomLeftRadius: 50,
-          // borderBottomRightRadius: 50,
         },
       }}
     >
@@ -60,8 +56,7 @@ const TabsLayout = () => {
           title: "Home",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={images.home} title="Home" />
-          ),
-          
+          ), 
         }}
       />{" "}
       <Tabs.Screen
@@ -69,7 +64,7 @@ const TabsLayout = () => {
         options={{
           title: "Search",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={images.search } title="Home" />
+            <TabBarIcon focused={focused} icon={images.search} title="Home" />
           ),
         }}
       />{" "}

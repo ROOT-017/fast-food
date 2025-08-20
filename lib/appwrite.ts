@@ -6,6 +6,7 @@ import {
   Databases,
   ID,
   Query,
+  Storage,
 } from "react-native-appwrite";
 
 export const appwriteConfig = {
@@ -14,6 +15,14 @@ export const appwriteConfig = {
   Platform: process.env.EXPO_PUBLIC_APPWRITE_PLATFORM || "",
   databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || "",
   userCollectionId: process.env.EXPO_PUBLIC_APPWRITE_USER_COLLECTION_ID || "",
+  categoriesCollectionId: process.env.EXPO_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID || "",
+  menuCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MENU_COLLECTION_ID || "",
+  // cartCollectionId:  process.env.EXPO_PUBLIC_APPWRITE_CART_COLLECTION_ID || "",
+  // orderCollectionId: process.env.EXPO_PUBLIC_APPWRITE_ORDER_COLLECTION_ID || "",
+  // orderItemCollectionId: process.env.EXPO_PUBLIC_APPWRITE_ORDER_ITEM_COLLECTION_ID || "",  
+  customisationCollectionId: process.env.EXPO_PUBLIC_APPWRITE_CUSTOMISATION_COLLECTION_ID || "", 
+  menuCustomisationCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MENU_CUSTOMISATION_COLLECTION_ID || "",
+  bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID || "",
 };
 
 export const client = new Client();
@@ -25,6 +34,7 @@ client
 
 export const account = new Account(client);
 export const databases = new Databases(client);
+export const storage = new Storage(client);
 export const avatar = new Avatars(client);
 
 export const createUser = async (userData: CreateUserParams) => {
@@ -91,3 +101,5 @@ export const getCurrentUser = async () => {
     throw new Error(error.message || "Failed t o get current user");
   }
 };
+
+

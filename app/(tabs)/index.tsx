@@ -11,11 +11,11 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images, offers } from "@/constants";
-import useAuthStore from "@/store/auth.store";
+// import useAuthStore from "@/store/auth.store";
 import CardButton from "../../components/CardButton";
 
 export default function Index() {
-  const { user } = useAuthStore();
+  // const { user } = useAuthStore();
   // console.log(user);
 
   return (

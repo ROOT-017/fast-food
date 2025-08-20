@@ -4,7 +4,6 @@ import { signIn } from "@/lib/appwrite";
 import { Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import { Alert, Text, View } from "react-native";
-import * as Sentry from "@sentry/react-native";
 
 const SignIn = () => {
   const router = useRouter();
@@ -28,10 +27,10 @@ const SignIn = () => {
     } catch (error: any) {
       console.error("Sign In Error:", error);
       Alert.alert("Error", error?.message);
-      Sentry.captureEvent(error)
+      // Sentry.captureEvent(error)
     } finally {
       setIsSubmitting(false);
-    } 
+    }
   };
   return (
     <View className="gap-10 bg-white rounded-lg p-5 mt-5">
@@ -50,11 +49,7 @@ const SignIn = () => {
         onChangeText={(text) => setForm({ ...form, password: text })}
         placeholder="Enter your password"
       />
-      <CustomButton
-        title="Sign In"
-        onPress={submit}
-        isLoading={isSubmitting}
-      />
+      <CustomButton title="Sign In" onPress={submit} isLoading={isSubmitting} />
       <View className="flex-row items-center justify-center gap-2">
         <Text className="base-regular text-gray-10">Dont have an account?</Text>
         <Link className="base-bold text-primary" href={"/(auth)/sign-up"}>
