@@ -59,8 +59,6 @@ async function clearStorage(): Promise<void> {
 }
 
 async function uploadImageToStorage(imageUrl: string) {
-  console.log("Uploading image:", imageUrl);
-
   const response = await fetch(imageUrl);
   const blob = await response.blob();
 

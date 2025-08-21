@@ -119,7 +119,7 @@ const dummyData = {
             price: 32.99,
             rating: 4.9,
             calories: 720,
-            protein: 35,
+            protein: 35, 
             category_name: "Burgers",
             customizations: [
                 "Extra Cheese",

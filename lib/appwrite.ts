@@ -1,4 +1,4 @@
-import { CreateUserParams, SignInParams, User } from "@/types";
+import { Category, CreateUserParams, GetMenuParams, MenuItem, SignInParams, User } from "@/types";
 import {
   Account,
   Avatars,
@@ -15,13 +15,16 @@ export const appwriteConfig = {
   Platform: process.env.EXPO_PUBLIC_APPWRITE_PLATFORM || "",
   databaseId: process.env.EXPO_PUBLIC_APPWRITE_DATABASE_ID || "",
   userCollectionId: process.env.EXPO_PUBLIC_APPWRITE_USER_COLLECTION_ID || "",
-  categoriesCollectionId: process.env.EXPO_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID || "",
+  categoriesCollectionId:
+    process.env.EXPO_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID || "",
   menuCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MENU_COLLECTION_ID || "",
   // cartCollectionId:  process.env.EXPO_PUBLIC_APPWRITE_CART_COLLECTION_ID || "",
   // orderCollectionId: process.env.EXPO_PUBLIC_APPWRITE_ORDER_COLLECTION_ID || "",
-  // orderItemCollectionId: process.env.EXPO_PUBLIC_APPWRITE_ORDER_ITEM_COLLECTION_ID || "",  
-  customisationCollectionId: process.env.EXPO_PUBLIC_APPWRITE_CUSTOMISATION_COLLECTION_ID || "", 
-  menuCustomisationCollectionId: process.env.EXPO_PUBLIC_APPWRITE_MENU_CUSTOMISATION_COLLECTION_ID || "",
+  // orderItemCollectionId: process.env.EXPO_PUBLIC_APPWRITE_ORDER_ITEM_COLLECTION_ID || "",
+  customisationCollectionId:
+    process.env.EXPO_PUBLIC_APPWRITE_CUSTOMISATION_COLLECTION_ID || "",
+  menuCustomisationCollectionId:
+    process.env.EXPO_PUBLIC_APPWRITE_MENU_CUSTOMISATION_COLLECTION_ID || "",
   bucketId: process.env.EXPO_PUBLIC_APPWRITE_BUCKET_ID || "",
 };
 
@@ -91,9 +94,11 @@ export const getCurrentUser = async () => {
   try {
     const currentAccount = await account.get(); // Get the current user session
     if (!currentAccount) throw Error;
-    const user = await databases.listDocuments<User>(appwriteConfig.databaseId, appwriteConfig.userCollectionId, [
-      Query.equal("accountId", currentAccount.$id),
-    ]);
+    const user = await databases.listDocuments<User>(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      [Query.equal("accountId", currentAccount.$id)]
+    );
     if (!user) throw Error;
 
     return user.documents[0]; //as unknown as User; // Return the user document
@@ -102,4 +107,31 @@ export const getCurrentUser = async () => {
   }
 };
 
+export const getMenu = async ({ category, query }: GetMenuParams) => {
+  try {
+    const queries: string[] = [];
+    if (category) queries.push(Query.equal("categories", category));
+    if (query) queries.push(Query.search("name", query));
 
+    const menu = await databases.listDocuments<MenuItem>(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCollectionId,
+      queries
+    );
+    return menu.documents;
+  } catch (error: any) {
+    throw new Error(error.message || "Failed to fetch menu");
+  }
+};
+
+export const getCategories = async () => {
+  try {
+    const categories = await databases.listDocuments<Category>(
+      appwriteConfig.databaseId,
+      appwriteConfig.categoriesCollectionId
+    );
+    return categories.documents;
+  } catch (error: any) {
+    throw new Error(error.message || "Failed to fetch categories");
+  }
+};

@@ -68,10 +68,7 @@ const SignUp = () => {
           Sign In
         </Link>
       </View>
-      <Link className="base-bold text-primary" href={"/(tabs)"}>
-        Home
-      </Link>
-    </View>
+    r</View>
   );
 };
 
