@@ -27,7 +27,6 @@ const SignUp = () => {
         password,
       });
       router.push("/(auth)/sign-in");
-      //   router.push("/(auth)/sign-in");
     } catch (error: any) {
       console.error("Sign In Error:", error);
       Alert.alert("Error", error?.message);
@@ -65,10 +64,11 @@ const SignUp = () => {
           Already have an account?
         </Text>
         <Link className="base-bold text-primary" href={"/(auth)/sign-in"}>
-          Sign In
+          <Text> Sign In</Text>
         </Link>
       </View>
-    r</View>
+      r
+    </View>
   );
 };
 

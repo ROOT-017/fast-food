@@ -1,5 +1,6 @@
 import { images } from "@/constants";
 import useAuthStore from "@/store/auth.store";
+import { useCartStore } from "@/store/cart.store";
 import { TabBarIconProps } from "@/types";
 import { cn } from "@/utils";
 import { Redirect, Tabs } from "expo-router";
@@ -26,6 +27,8 @@ const TabBarIcon = ({ icon, focused, title }: TabBarIconProps) => (
 );
 const TabsLayout = () => {
   const { isAuthenticated } = useAuthStore();
+  const { getTotalItems } = useCartStore();
+  const totalItems = getTotalItems();
   if (!isAuthenticated) return <Redirect href={"/(auth)/sign-in"} />;
   return (
     <Tabs
@@ -56,33 +59,58 @@ const TabsLayout = () => {
           title: "Home",
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={images.home} title="Home" />
-          ), 
+          ),
         }}
-      />{" "}
+      />
       <Tabs.Screen
         name="search"
         options={{
           title: "Search",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={images.search} title="Home" />
+            <TabBarIcon focused={focused} icon={images.search} title="Search" />
           ),
         }}
-      />{" "}
+      />
       <Tabs.Screen
         name="cart"
         options={{
           title: "Cart",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={images.bag} title="Home" />
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <TabBarIcon focused={focused} icon={images.bag} title="Cart" />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 15,
+                  right: 10,
+                  backgroundColor: "#fe8c00",
+                  borderRadius: 10,
+                  minWidth: 20,
+                  height: 20,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Text
+                  style={{ color: "white", fontSize: 12, fontWeight: "bold" }}
+                >
+                  {totalItems}
+                </Text>
+              </View>
+            </View>
           ),
         }}
-      />{" "}
+      />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
           tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={images.person} title="Home" />
+            <TabBarIcon
+              focused={focused}
+              icon={images.person}
+              title="Profile"
+            />
           ),
         }}
       />

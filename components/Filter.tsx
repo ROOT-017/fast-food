@@ -5,7 +5,10 @@ import React, { useState } from "react";
 import { FlatList, Platform, Text, TouchableOpacity } from "react-native";
 
 const Filter = ({ categories }: { categories: Category[] }) => {
-  const searchParams = useLocalSearchParams();
+  const searchParams = useLocalSearchParams<{
+    query: string;
+    category: string;
+  }>();
   const [active, setActive] = useState(searchParams.category || "");
 
   const handlePress = (id: string) => {
@@ -32,7 +35,9 @@ const Filter = ({ categories }: { categories: Category[] }) => {
         <TouchableOpacity
           key={item.$id}
           className={cn(
-            active === item.$id ? "bg-amber-500  " : "bg-white",
+            active === item.$id || (item.$id === "all" && !Boolean(active))
+              ? "bg-amber-500"
+              : "bg-white",
             "px-4 py-2 rounded-full mr-2"
           )}
           style={
@@ -45,7 +50,9 @@ const Filter = ({ categories }: { categories: Category[] }) => {
           <Text
             className={cn(
               "body-medium",
-              active === item.$id ? "text-white" : "text-gray-200"
+              active === item.$id || (item.$id === "all" && !Boolean(active))
+                ? "text-white"
+                : "text-gray-200"
             )}
           >
             {item.name}
@@ -54,7 +61,6 @@ const Filter = ({ categories }: { categories: Category[] }) => {
       )}
       keyExtractor={(item) => item.$id || item.name}
       contentContainerStyle={{
-        // paddingHorizon tal: 10,
         paddingVertical: 5,
       }}
     />

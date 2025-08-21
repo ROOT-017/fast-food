@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images, offers } from "@/constants";
 // import useAuthStore from "@/store/auth.store";
+import { router } from "expo-router";
 import CardButton from "../../components/CardButton";
 
 export default function Index() {
@@ -20,7 +21,7 @@ export default function Index() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <FlatList 
+      <FlatList
         data={offers}
         renderItem={({ item, index }) => {
           const isEven = index % 2 === 0;
@@ -34,6 +35,9 @@ export default function Index() {
                 backgroundColor: item.color,
               }}
               android_ripple={{ color: "#ffff22" }}
+              onPress={() => {
+                router.push(`/(tabs)/search?category=${item.categoryId}`);
+              }}
             >
               {({ pressed }) => (
                 <Fragment>

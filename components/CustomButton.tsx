@@ -13,7 +13,8 @@ const CustomButton = ({
 }: CustomButtonProps) => {
   return (
     <TouchableOpacity className={cn("custom-btn", style)} onPress={onPress}>
-      <View className="flex-center flex-row">
+      <View className="flex-center flex-row gap-x-2">
+        {leftIcon}
         {isLoading ? (
           <ActivityIndicator size={"large"} />
         ) : (

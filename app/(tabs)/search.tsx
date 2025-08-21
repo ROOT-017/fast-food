@@ -1,4 +1,5 @@
 import CardButton from "@/components/CardButton";
+import Empty from "@/components/Empty";
 import Filter from "@/components/Filter";
 import MenuCard from "@/components/MenuCard";
 import SearchBar from "@/components/SearchBar";
@@ -56,7 +57,10 @@ const Search = () => {
         keyExtractor={(item) => item.$id}
         numColumns={2}
         columnWrapperClassName="gap-7"
-        contentContainerClassName="gap-7 px-5 pb-32"
+        contentContainerClassName={cn(
+          "gap-7 px-5 pb-32",
+          !data?.length && "flex-1"
+        )}
         ListHeaderComponent={() => (
           <View className="my-5 gap-5">
             <View className="flex-between flex-row w-full">
@@ -76,7 +80,7 @@ const Search = () => {
             <Filter categories={categories!} />
           </View>
         )}
-        ListEmptyComponent={() => !loading && <Text>No results</Text>}
+        ListEmptyComponent={() => !loading && <Empty message="No item found" />}
       />
     </SafeAreaView>
   );
