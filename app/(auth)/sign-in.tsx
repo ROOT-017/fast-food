@@ -54,7 +54,7 @@ const SignIn = () => {
       />
       <CustomButton title="Sign In" onPress={submit} isLoading={isSubmitting} />
       <View className="flex-row items-center justify-center gap-2">
-        <Text className="base-regular text-gray-10">Dont have an account?</Text>
+        <Text className="base-regular text-gray-10">Don&apos;t have an account?</Text>
         <Link className="base-bold text-primary" href={"/(auth)/sign-up"}>
           Sign Up
         </Link>

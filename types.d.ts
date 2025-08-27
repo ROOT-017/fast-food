@@ -10,6 +10,8 @@ export interface MenuItem extends Models.Document {
   protein: number;
   rating: number;
   type: string;
+  categories: Category;
+  customizations: CartCustomization;
 }
 
 export interface Category extends Models.Document {
@@ -74,6 +76,7 @@ interface CustomButtonProps {
 
 interface CustomHeaderProps {
   title?: string;
+  onPressSearch?: () => void;
 }
 
 interface CustomInputProps {

@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         primary: "#FE8C00",
+        accent: "#FE8C000D",
         white: {
           DEFAULT: "#ffffff",
           100: "#fafafa",
@@ -19,8 +20,13 @@ module.exports = {
         dark: {
           100: "#181C2E",
         },
+        "light-text": {
+          DEFAULT: "#6A6A6A",
+          100: "#181C2E",
+        },
         error: "#F14141",
         success: "#2F9B65",
+        chocolate: "#3C2F2F",
       },
       fontFamily: {
         quicksand: ["Quicksand-Regular", "sans-serif"],

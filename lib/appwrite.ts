@@ -1,4 +1,11 @@
-import { Category, CreateUserParams, GetMenuParams, MenuItem, SignInParams, User } from "@/types";
+import {
+  Category,
+  CreateUserParams,
+  GetMenuParams,
+  MenuItem,
+  SignInParams,
+  User,
+} from "@/types";
 import {
   Account,
   Avatars,
@@ -133,5 +140,29 @@ export const getCategories = async () => {
     return categories.documents;
   } catch (error: any) {
     throw new Error(error.message || "Failed to fetch categories");
+  }
+};
+
+export const getMenuItem = async (id: string) => {
+  try {
+    const menu = await databases.getDocument<MenuItem>(
+      appwriteConfig.databaseId,
+      appwriteConfig.menuCollectionId,
+      id
+    );
+    return menu;
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : "Failed to fetch menu item"
+    );
+  }
+};
+
+export const getCustomisations = async (id: string) => {
+  try {
+  }catch(err){
+    throw new Error(
+      err instanceof Error ? err.message : "Failed to fetch menu item"
+    );
   }
 };
