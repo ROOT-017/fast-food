@@ -73,8 +73,6 @@ const InfoSect = ({ rating }: { rating: number }) => {
 };
 
 const MenuOverView = ({ data }: { data: MenuItem | null }) => {
-  console.log(data?.category_name);
-
   return (
     <View className="flex-row">
       <View className="">
