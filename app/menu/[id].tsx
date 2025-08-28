@@ -3,9 +3,10 @@ import CustomHeader from "@/components/CustomHeader";
 import { images } from "@/constants";
 import useFetch from "@/hooks/useFetch";
 import { getMenuItem } from "@/lib/appwrite";
-import { MenuItem } from "@/types";
+import { useCartStore } from "@/store/cart.store";
+import { CartCustomization, CustomisationTye, MenuItem } from "@/types";
 import { useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -17,7 +18,14 @@ import {
 } from "react-native";
 import { Rating } from "react-native-ratings";
 import { SafeAreaView } from "react-native-safe-area-context";
-const ToppingsCard = () => {
+
+const ToppingsCard = ({
+  data,
+  onPress,
+}: {
+  data: CartCustomization;
+  onPress?: () => void;
+}) => {
   return (
     <View
       style={
@@ -32,11 +40,20 @@ const ToppingsCard = () => {
       className="rounded-3xl h-32 w-28 overflow-hidden bg-chocolate shadow-md shadow-black/10"
     >
       <View className="h-[60%] rounded-b-3xl justify-center items-center bg-white">
-        <Image source={images.tomatoes} className="size-16" />
+        <Image
+          source={
+            images[data.name.toLowerCase() as keyof typeof images] ??
+            images.tomatoes
+          }
+          className="size-16"
+        />
       </View>
       <View className="flex-row justify-between  items-center p-3  h-[40%]">
-        <Text className="text-white">Tomato</Text>
-        <TouchableOpacity className="h-5 w-5 rounded-full bg-primary justify-center items-center p-2">
+        <Text className="text-white truncate">{data.name}</Text>
+        <TouchableOpacity
+          onPress={onPress}
+          className="h-5 w-5 rounded-full bg-primary justify-center items-center p-2"
+        >
           <Image source={images.plus} className="size-3" tintColor={"#fff"} />
         </TouchableOpacity>
       </View>
@@ -130,8 +147,28 @@ const MenuOverView = ({ data }: { data: MenuItem | null }) => {
 };
 const MenuDetail = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const { addItem } = useCartStore();
 
   const { data } = useFetch(() => getMenuItem(id));
+  const [customisation, setCustomisation] = useState<
+    Record<CustomisationTye, CartCustomization[]>
+  >({
+    side: [],
+    topping: [],
+  });
+
+  useEffect(() => {
+    if (!data) return;
+    data.menuCustomisations.map((item) =>
+      setCustomisation((prev) => ({
+        [item.customisations.type]: prev[item.customisations.type].push(
+          item.customisations
+        ),
+        ...prev,
+      }))
+    );
+  }, [data]);
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView className="flex-1 px-4 ">
@@ -147,9 +184,21 @@ const MenuDetail = () => {
               Toppings
             </Text>
             <FlatList
-              data={Array.from({ length: 10 })}
+              data={customisation.topping}
               horizontal
-              renderItem={({ item }) => <ToppingsCard />}
+              renderItem={({ item }) => (
+                <ToppingsCard
+                  data={item}
+                  // onPress={() =>
+                  //   addItem({
+                  //     id: item.id,
+                  //     price: item.price,
+                  //     name: item.name,
+                  //     customizations: [],
+                  //   })
+                  // }
+                />
+              )}
               keyExtractor={(_, index) => index.toString()}
               contentContainerClassName="gap-x-8 my-4"
               showsHorizontalScrollIndicator={false}
@@ -160,9 +209,9 @@ const MenuDetail = () => {
               Side Options
             </Text>
             <FlatList
-              data={Array.from({ length: 10 })}
+              data={customisation.side}
               horizontal
-              renderItem={({ item }) => <ToppingsCard />}
+              renderItem={({ item }) => <ToppingsCard data={item} />}
               keyExtractor={(_, index) => index.toString()}
               contentContainerClassName="gap-x-8 py-5"
               showsHorizontalScrollIndicator={false}

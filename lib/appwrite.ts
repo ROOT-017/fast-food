@@ -2,6 +2,7 @@ import {
   Category,
   CreateUserParams,
   GetMenuParams,
+  MenuCustomisation,
   MenuItem,
   SignInParams,
   User,
@@ -160,9 +161,29 @@ export const getMenuItem = async (id: string) => {
 
 export const getCustomisations = async (id: string) => {
   try {
-  }catch(err){
+  } catch (err) {
     throw new Error(
       err instanceof Error ? err.message : "Failed to fetch menu item"
     );
   }
+};
+
+export const getMenuCustomisation = async ({
+  menuCustomisationID,
+  menuID,
+}: {
+  menuID: string;
+  menuCustomisationID: string;
+}) => {
+  console.log(menuCustomisationID);
+  
+  const menuCustomisation = await databases.listDocuments<MenuCustomisation>(
+    appwriteConfig.databaseId,
+    appwriteConfig.menuCustomisationCollectionId,
+    [
+      Query.equal("menu", menuID),
+      Query.equal("customisations", menuCustomisationID),
+    ]
+  );
+  return menuCustomisation.documents;
 };

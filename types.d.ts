@@ -11,7 +11,9 @@ export interface MenuItem extends Models.Document {
   rating: number;
   type: string;
   categories: Category;
-  customizations: CartCustomization;
+  menuCustomisations: {
+    customisations: CartCustomization
+  }[]
 }
 
 export interface Category extends Models.Document {
@@ -29,7 +31,13 @@ export interface CartCustomization {
   id: string;
   name: string;
   price: number;
-  type: string;
+  type: CustomisationTye;
+}
+
+export type CustomisationTye = "topping" | "side";
+export interface MenuCustomisation extends Models.Document {
+  menu: MenuItem;
+  customizations: CartCustomization;
 }
 
 export interface CartItemType {
