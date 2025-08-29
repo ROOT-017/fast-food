@@ -49,7 +49,9 @@ const ToppingsCard = ({
         />
       </View>
       <View className="flex-row justify-between  items-center p-3  h-[40%]">
-        <Text className="text-white truncate">{data.name}</Text>
+        <Text className="text-white flex-1 truncate" numberOfLines={1}>
+          {data.name}
+        </Text>
         <TouchableOpacity
           onPress={onPress}
           className="h-5 w-5 rounded-full bg-primary justify-center items-center p-2"
@@ -148,6 +150,7 @@ const MenuOverView = ({ data }: { data: MenuItem | null }) => {
 const MenuDetail = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { addItem } = useCartStore();
+  const [quantity, setQuantity] = useState(1);
 
   const { data } = useFetch(() => getMenuItem(id));
   const [customisation, setCustomisation] = useState<
@@ -189,19 +192,24 @@ const MenuDetail = () => {
               renderItem={({ item }) => (
                 <ToppingsCard
                   data={item}
-                  // onPress={() =>
-                  //   addItem({
-                  //     id: item.id,
-                  //     price: item.price,
-                  //     name: item.name,
-                  //     customizations: [],
-                  //   })
-                  // }
+                  onPress={() =>
+                    addItem({
+                      id: item.id,
+                      price: item.price,
+                      name: item.name,
+                      customizations: [],
+                    })
+                  }
                 />
               )}
               keyExtractor={(_, index) => index.toString()}
               contentContainerClassName="gap-x-8 my-4"
               showsHorizontalScrollIndicator={false}
+              ListEmptyComponent={
+                <View className="justify-center items-center flex-1  h-12 w-full flex-row">
+                  <Text>No Topping</Text>
+                </View>
+              }
             />
           </View>
           <View className="pb-4 my-5">
@@ -215,6 +223,11 @@ const MenuDetail = () => {
               keyExtractor={(_, index) => index.toString()}
               contentContainerClassName="gap-x-8 py-5"
               showsHorizontalScrollIndicator={false}
+              ListEmptyComponent={
+                <View className="justify-center items-center flex-row">
+                  <Text>No Side Option</Text>
+                </View>
+              }
             />
           </View>
           <View className=" justify-center items-center ">
@@ -231,9 +244,9 @@ const MenuDetail = () => {
                 backgroundColor: "#fff",
               }}
             >
-              <View className="flex-row items-center h-full gap-x-4 mt-2">
+              <View className="flex-row items-center h-full w-fit gap-x-4 mt-2">
                 <TouchableOpacity
-                  // onPress={() => decreaseQty(item.id, item.customizations!)}
+                  onPress={() => setQuantity(quantity - 1 ? quantity - 1 : 1)}
                   className="cart-item__actions"
                 >
                   <Image
@@ -244,10 +257,10 @@ const MenuDetail = () => {
                   />
                 </TouchableOpacity>
 
-                <Text className="base-bold text-dark-100">{5}</Text>
+                <Text className="base-bold text-dark-100">{quantity}</Text>
 
                 <TouchableOpacity
-                  // onPress={() => increaseQty(item.id, item.customizations!)}
+                  onPress={() => setQuantity(quantity ? quantity + 1 : 1)}
                   className="cart-item__actions"
                 >
                   <Image
@@ -259,9 +272,18 @@ const MenuDetail = () => {
                 </TouchableOpacity>
               </View>
               <CustomButton
-                title="Add to cart ($26)"
+                title={`Add to cart (${quantity * data?.price!})`}
                 textStyle="text-semibold"
-                style="w-1/2 !px-18"
+                style="min-w-1/2 w-[14em]"
+                onPress={() =>
+                  addItem({
+                    id: data?.$id!,
+                    price: data?.price!,
+                    name: data?.name!,
+                    // quantity,
+                    customizations: [],
+                  })
+                }
                 leftIcon={<Image source={images.bag} className="size-5" />}
               />
             </View>

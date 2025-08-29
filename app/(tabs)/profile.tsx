@@ -67,7 +67,6 @@ const DetailForm = ({ user }: { user: User | null }) => {
     </View>
   );
 };
-
 const Profile = () => {
   const { setIsAuthenticated, isAuthenticated, user } = useAuthStore();
   // console.log(user);
@@ -97,7 +96,7 @@ const Profile = () => {
             }
             onPress={handleSignout}
             style="bg-whites border-[1px] border-error bg-[#F141410D] mt-4"
-            textStyle="text-error"
+            textStyle="!text-error"
           />
         </View>
         <View className="h-28" />

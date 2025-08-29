@@ -41,6 +41,8 @@ import salad from "@/assets/images/salad.png";
 import success from "@/assets/images/success.png";
 import tomatoes from "@/assets/images/tomatoes.png";
 import moss from "@/assets/images/moss.png";
+import coke from "@/assets/images/coke.png";
+import chickenNugget from  '@/assets/images/chickenNuggets.png'
 import pickles from "@/assets/images/pickles.png";
 
 
@@ -172,6 +174,8 @@ export const images = {
   burgerTwo,
   buritto,
   cheese,
+  chickenNugget,
+  coke,
   coleslaw,
   cucumber,
   emptyState,
